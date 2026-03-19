@@ -6,8 +6,23 @@ esp32:
   variant: esp32s3
   framework:
     type: arduino
-  # ПАРАМЕТРЫ ДЛЯ ТВОЕЙ ПЛАТЫ N16R8 (16MB Flash / 8MB PSRAM)
-  board_build.arduino.memory_type: opi_opi # Обязательно для 8MB PSRAM
-  board_build.flash_mode: opi               # Обязательно для 16MB Flash
-  board_build.f_flash: 80m
-  board_build.f_cpu: 240000000L
+  # ПРАВИЛЬНЫЙ ФОРМАТ ДЛЯ N16R8 (16MB Flash / 8MB PSRAM)
+  platformio_options:
+    board_build.arduino.memory_type: opi_opi
+    board_build.flash_mode: opi
+    board_build.f_flash: 80m
+    board_build.f_cpu: 240000000L
+
+api:
+ota:
+  platform: esphome
+
+logger:
+  level: DEBUG
+
+wifi:
+  networks:
+    - ssid: "OpenWrt-2П"
+      password: "35353535"
+      bssid: 50:4F:3B:3F:A6:A2
+  fast_connect: true
