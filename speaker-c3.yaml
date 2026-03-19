@@ -1,0 +1,62 @@
+esphome:
+  name: esp32-c3-mini-speaker
+
+esp32:
+  board: esp32-c3-devkitm-1
+  variant: esp32c3
+  framework:
+    type: arduino
+
+api:
+ota:
+  platform: esphome
+
+logger:
+  level: DEBUG
+
+wifi:
+  networks:
+    - ssid: "OpenWrt-2П"
+      password: "35353535"
+      # BSSID твоего роутера (советую оставить, чтобы точно зацепилось)
+      bssid: 50:4F:3B:3F:A6:A2
+  fast_connect: true
+
+# Встроенный светодиод на плате (будет мигать при поиске Wi-Fi)
+status_led:
+  pin: GPIO8
+
+# --- НАСТРОЙКИ ЗВУКА (ДЛЯ БУДУЩЕЙ ПАЙКИ) ---
+i2s_audio:
+  - id: i2s_bus
+    i2s_lrclk_pin: GPIO3
+    i2s_bclk_pin: GPIO2
+
+media_player:
+  - platform: i2s_audio
+    name: "C3 Speaker"
+    id: my_media_player
+    i2s_audio_id: i2s_bus
+    i2s_dout_pin: GPIO5
+
+microphone:
+  - platform: i2s_audio
+    id: my_mic
+    i2s_audio_id: i2s_bus
+    i2s_din_pin: GPIO4
+
+voice_assistant:
+  id: va
+  microphone: my_mic
+  media_player: my_media_player
+
+# Кнопка (используем встроенную кнопку BOOT на плате для теста)
+binary_sensor:
+  - platform: gpio
+    name: "Action Button"
+    pin:
+      number: GPIO9
+      inverted: true
+      mode: INPUT_PULLUP
+    on_press:
+      - voice_assistant.start
