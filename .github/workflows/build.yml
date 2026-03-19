@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: esphome/build-action@v2.2.0
+      - uses: esphome/build-action@v2
         id: esphome-build
         with:
           config_file: speaker.yaml
