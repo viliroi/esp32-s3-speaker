@@ -6,8 +6,8 @@ esp32:
   variant: esp32s3
   framework:
     type: arduino
-  # НАСТРОЙКИ ДЛЯ N16R8 (16MB Flash / 8MB PSRAM)
-  board_build.arduino.memory_type: qio_opi # Обязательно для R8 (Octal PSRAM)
-  board_build.flash_mode: qio
+  # ПАРАМЕТРЫ ДЛЯ ТВОЕЙ ПЛАТЫ N16R8 (16MB Flash / 8MB PSRAM)
+  board_build.arduino.memory_type: opi_opi # Обязательно для 8MB PSRAM
+  board_build.flash_mode: opi               # Обязательно для 16MB Flash
   board_build.f_flash: 80m
-
+  board_build.f_cpu: 240000000L
