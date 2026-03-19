@@ -1,0 +1,15 @@
+name: Build ESPHome
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: esphome/build-action@v2
+        id: esphome-build
+        with:
+          config_file: speaker.yaml
+      - uses: actions/upload-artifact@v3
+        with:
+          name: firmware
+          path: ${{ steps.esphome-build.outputs.name }}
