@@ -20,7 +20,7 @@ jobs:
         run: pip install esphome
 
       - name: Build Firmware
-        run: esphome compile speaker.yaml
+        run: esphome compile speaker-c3.yaml
 
       # ЭТА ЧАСТЬ САМА НАЙДЕТ ФАЙЛ И ВЫЛОЖИТ ЕГО
       - name: Find and Copy Firmware
