@@ -23,8 +23,8 @@ wifi:
 
 i2s_audio:
   - id: i2s_bus
-    i2s_lrclk_pin: GPIO3
-    i2s_bclk_pin: GPIO2
+    i2s_lrclk_pin: GPIO1
+    i2s_bclk_pin: GPIO0
 
 media_player:
   - platform: i2s_audio
@@ -32,7 +32,6 @@ media_player:
     id: my_media_player
     i2s_audio_id: i2s_bus
     i2s_dout_pin: GPIO5
-    # ВОТ ЭТОЙ СТРОКИ НЕ ХВАТАЛО:
     dac_type: external
 
 microphone:
@@ -41,6 +40,8 @@ microphone:
     i2s_audio_id: i2s_bus
     i2s_din_pin: GPIO4
     pdm: false
+    # ВОТ ЭТО ИСПРАВЛЕНИЕ:
+    adc_type: external
 
 voice_assistant:
   id: va
