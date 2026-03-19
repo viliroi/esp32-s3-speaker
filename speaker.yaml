@@ -1,16 +1,20 @@
 esphome:
-  name: final-speaker-test
+  name: esp32-s3-home
 
 esp32:
-  board: esp32-s3-wroom-1   # <-- ВАЖНО! Используйте вашу реальную плату
+  board: esp32-s3-devkitc-1
+  variant: esp32s3
   framework:
     type: arduino
-  variant: ESP32S3
-  # psram временно отключён
+  # Настройки для твоей памяти N16R8 (16MB Flash / 8MB PSRAM)
+  platformio_options:
+    board_build.arduino.memory_type: opi_opi
+    board_build.flash_mode: opi
 
 api:
 ota:
   platform: esphome
+
 logger:
   level: DEBUG
 
@@ -18,37 +22,31 @@ wifi:
   networks:
     - ssid: "OpenWrt-2П"
       password: "35353535"
+      bssid: 50:4F:3B:3F:A6:A2
   fast_connect: true
 
 i2s_audio:
   - id: i2s_bus
-    i2s_lrclk_pin: GPIO6
-    i2s_bclk_pin: GPIO5
+    i2s_lrclk_pin: GPIO18
+    i2s_bclk_pin: GPIO17
 
 media_player:
   - platform: i2s_audio
     name: "Speaker"
     id: my_media_player
     i2s_audio_id: i2s_bus
-    i2s_dout_pin: GPIO7
-    dac_type: external
-    mode: mono
+    i2s_dout_pin: GPIO38
 
 microphone:
   - platform: i2s_audio
     id: my_mic
     i2s_audio_id: i2s_bus
-    i2s_din_pin: GPIO4
-    adc_type: external
-    pdm: false
-    bits_per_sample: 16bit
-    channel: left
+    i2s_din_pin: GPIO21
 
 voice_assistant:
   id: va
   microphone: my_mic
   media_player: my_media_player
-  use_wake_word: false
 
 binary_sensor:
   - platform: gpio
