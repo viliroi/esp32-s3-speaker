@@ -1,4 +1,4 @@
-name: Build ESPHome
+name: Build ESPHome Manual
 
 on:
   workflow_dispatch:
@@ -10,11 +10,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: esphome/build-action@v2
-        id: esphome-build
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
-          config_file: speaker.yaml
-      - uses: actions/upload-artifact@v4
+          python-version: '3.11'
+
+      - name: Install ESPHome
+        run: pip install esphome
+
+      - name: Build Firmware
+        run: esphome compile speaker.yaml
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
         with:
-          name: firmware
-          path: ${{ steps.esphome-build.outputs.name }}
+          name: my-firmware
+          path: .esphome/build/**/firmware*.bin
