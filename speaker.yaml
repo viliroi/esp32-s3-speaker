@@ -1,47 +1,63 @@
 esphome:
-  name: final-speaker-test
+  name: final-speaker-test      # Или оставьте ваше имя "esp32-s3-home"
 
 esp32:
   board: esp32-s3-devkitc-1
   framework:
     type: arduino
+  # --- Важная часть для вашего модуля N16R8 ---
+  variant: ESP32S3
+  psram:
+    mode: octal
+    speed: 80MHz
+  # ------------------------------------------
 
+# Эти секции остаются как в файле GitHub
 api:
 ota:
   platform: esphome
-
 logger:
   level: DEBUG
 
+# --- Wi-Fi (оставляем вашу сеть, но убираем BSSID для универсальности) ---
 wifi:
   networks:
     - ssid: "OpenWrt-2П"
       password: "35353535"
-      bssid: 50:4F:3B:3F:A6:A2
+      # bssid: 50:4F:3B:3F:A6:A2  # Закомментируйте или удалите эту строку
   fast_connect: true
 
+# --- Самое главное: ваши пины! ---
 i2s_audio:
   - id: i2s_bus
-    i2s_lrclk_pin: GPIO13
-    i2s_bclk_pin: GPIO14
+    i2s_lrclk_pin: GPIO6        # Ваш пин
+    i2s_bclk_pin: GPIO5          # Ваш пин
 
 media_player:
   - platform: i2s_audio
     name: "Speaker"
     id: my_media_player
     i2s_audio_id: i2s_bus
-    i2s_dout_pin: GPIO11
+    i2s_dout_pin: GPIO7          # Ваш пин (DOUT на ЦАП)
+    dac_type: external           # Добавьте, если используете внешний ЦАП
+    mode: mono                   # Добавьте для mono-режима
 
 microphone:
   - platform: i2s_audio
     id: my_mic
     i2s_audio_id: i2s_bus
-    i2s_din_pin: GPIO12
+    i2s_din_pin: GPIO4           # Ваш пин (DIN от микрофона)
+    adc_type: external            # Добавьте для I2S-микрофона
+    pdm: false                    # Отключаем PDM, т.к. у вас I2S
+    bits_per_sample: 16bit        # Явно укажите битность
+    channel: left                 # Явно укажите канал
 
+# --- Voice Assistant (без wake word для начала) ---
 voice_assistant:
   id: va
   microphone: my_mic
   media_player: my_media_player
+  # use_wake_word: false          # По умолчанию false
 
 binary_sensor:
   - platform: gpio
