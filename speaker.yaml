@@ -3,20 +3,11 @@ esphome:
 
 esp32:
   board: esp32-s3-devkitc-1
+  variant: esp32s3
   framework:
-    type: arduino # Самый простой вариант для S3
+    type: arduino
+  # НАСТРОЙКИ ДЛЯ N16R8 (16MB Flash / 8MB PSRAM)
+  board_build.arduino.memory_type: qio_opi # Обязательно для R8 (Octal PSRAM)
+  board_build.flash_mode: qio
+  board_build.f_flash: 80m
 
-api:
-ota:
-  platform: esphome
-
-logger:
-  level: DEBUG
-
-wifi:
-  networks:
-    - ssid: "OpenWrt-2П"
-      password: "35353535"
-      bssid: 50:4F:3B:3F:A6:A2
-  fast_connect: true
-  power_save_mode: none
