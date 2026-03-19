@@ -6,7 +6,7 @@ esp32:
   framework:
     type: arduino
   variant: ESP32S3
-  psram: 8MB
+  psram: true
 
 # Эти секции остаются как в файле GitHub
 api:
