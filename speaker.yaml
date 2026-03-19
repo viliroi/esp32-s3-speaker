@@ -1,9 +1,8 @@
 esphome:
-  name: esp32-s3-home
+  name: final-speaker-test
 
 esp32:
   board: esp32-s3-devkitc-1
-  variant: esp32s3
   framework:
     type: arduino
 
@@ -23,25 +22,21 @@ wifi:
 
 i2s_audio:
   - id: i2s_bus
-    i2s_lrclk_pin: GPIO18
-    i2s_bclk_pin: GPIO17
+    i2s_lrclk_pin: GPIO13
+    i2s_bclk_pin: GPIO14
 
 media_player:
   - platform: i2s_audio
     name: "Speaker"
     id: my_media_player
     i2s_audio_id: i2s_bus
-    i2s_dout_pin: GPIO38
-    dac_type: external
-    mode: mono
+    i2s_dout_pin: GPIO11
 
 microphone:
   - platform: i2s_audio
     id: my_mic
     i2s_audio_id: i2s_bus
-    i2s_din_pin: GPIO21
-    adc_type: external
-    pdm: false
+    i2s_din_pin: GPIO12
 
 voice_assistant:
   id: va
