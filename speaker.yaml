@@ -5,12 +5,8 @@ esp32:
   board: esp32-s3-devkitc-1
   framework:
     type: arduino
-  # --- Важная часть для вашего модуля N16R8 ---
   variant: ESP32S3
-  psram:
-    mode: octal
-    speed: 80MHz
-  # ------------------------------------------
+  psram: 8MB
 
 # Эти секции остаются как в файле GitHub
 api:
@@ -38,19 +34,19 @@ media_player:
     name: "Speaker"
     id: my_media_player
     i2s_audio_id: i2s_bus
-    i2s_dout_pin: GPIO7          # Ваш пин (DOUT на ЦАП)
-    dac_type: external           # Добавьте, если используете внешний ЦАП
-    mode: mono                   # Добавьте для mono-режима
+    i2s_dout_pin: GPIO7
+    dac_type: external          # обязательно для PCM5102
+    mode: mono                   # если динамик один
 
 microphone:
   - platform: i2s_audio
     id: my_mic
     i2s_audio_id: i2s_bus
-    i2s_din_pin: GPIO4           # Ваш пин (DIN от микрофона)
-    adc_type: external            # Добавьте для I2S-микрофона
-    pdm: false                    # Отключаем PDM, т.к. у вас I2S
-    bits_per_sample: 16bit        # Явно укажите битность
-    channel: left                 # Явно укажите канал
+    i2s_din_pin: GPIO4
+    adc_type: external           # для I2S-микрофона
+    pdm: false
+    bits_per_sample: 16bit
+    channel: left              # Явно укажите канал
 
 # --- Voice Assistant (без wake word для начала) ---
 voice_assistant:
