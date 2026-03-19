@@ -5,12 +5,13 @@ esp32:
   board: esp32-s3-devkitc-1
   framework:
     type: arduino
-  # ПРАВИЛЬНЫЙ БЛОК ДЛЯ ПАМЯТИ N16R8
+  # Настройки для N16R8 (Octal SPI)
   platformio_options:
     board_build.arduino.memory_type: opi_opi
     board_build.flash_mode: opi
 
 api:
+
 ota:
   platform: esphome
 
@@ -23,3 +24,40 @@ wifi:
       password: "35353535"
       bssid: 50:4F:3B:3F:A6:A2
   fast_connect: true
+
+i2s_audio:
+  - id: i2s_bus
+    i2s_lrclk_pin: GPIO13
+    i2s_bclk_pin: GPIO14
+
+media_player:
+  - platform: i2s_audio
+    name: "Speaker"
+    id: my_media_player
+    i2s_audio_id: i2s_bus
+    i2s_dout_pin: GPIO11
+    dac_type: external
+    mode: mono
+
+microphone:
+  - platform: i2s_audio
+    id: my_mic
+    i2s_audio_id: i2s_bus
+    i2s_din_pin: GPIO12
+    adc_type: external
+    pdm: false
+
+voice_assistant:
+  id: va
+  microphone: my_mic
+  media_player: my_media_player
+
+binary_sensor:
+  - platform: gpio
+    name: "Action Button"
+    pin:
+      number: GPIO15
+      inverted: true
+      mode: INPUT_PULLUP
+    on_press:
+      - voice_assistant.start
