@@ -22,8 +22,13 @@ jobs:
       - name: Build Firmware
         run: esphome compile speaker.yaml
 
+      # ЭТА ЧАСТЬ САМА НАЙДЕТ ФАЙЛ И ВЫЛОЖИТ ЕГО
+      - name: Find and Copy Firmware
+        run: |
+          find .esphome/build/ -name "firmware.bin" -exec cp {} ./ready_to_flash.bin \;
+
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: my-firmware
-          path: .esphome/build/**/*.bin
+          name: my-esp32-firmware
+          path: ready_to_flash.bin
