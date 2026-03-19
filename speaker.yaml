@@ -17,9 +17,17 @@ wifi:
   networks:
     - ssid: "OpenWrt-2П"
       password: "35353535"
-      bssid: 50:4F:3B:3F:A6:A2 # Твой роутер
+      bssid: 50:4F:3B:3F:A6:A2
+  
+  # ПРИНУДИТЕЛЬНЫЙ АДРЕС (проверь, чтобы 131 был свободен)
+  manual_ip:
+    static_ip: 192.168.2.131
+    gateway: 192.168.2.1
+    subnet: 255.255.255.0
+
   fast_connect: true
   power_save_mode: none
+
 
 i2s_audio:
   - id: i2s_bus
