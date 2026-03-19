@@ -1,0 +1,59 @@
+esphome:
+  name: esp32-s3-home
+
+esp32:
+  board: esp32-s3-devkitc-1
+  framework:
+    type: arduino
+
+i2s_audio:
+  - id: i2s_bus
+    i2s_lrclk_pin: GPIO6          # изменено
+    i2s_bclk_pin: GPIO5            # изменено
+
+media_player:
+  - platform: i2s_audio
+    name: "Smart Speaker Media Player"
+    id: my_media_player
+    i2s_audio_id: i2s_bus
+    i2s_dout_pin: GPIO7            # выход на ЦАП
+    dac_type: external
+    mode: mono
+
+microphone:
+  - platform: i2s_audio
+    id: my_mic
+    i2s_audio_id: i2s_bus
+    i2s_din_pin: GPIO4             # микрофон
+    adc_type: external
+    pdm: false
+    bits_per_sample: 16bit
+    channel: left
+
+voice_assistant:
+  id: va
+  microphone: my_mic
+  media_player: my_media_player
+  use_wake_word: false              # для начала отключите
+
+binary_sensor:
+  - platform: gpio
+    name: "Action Button"
+    pin:
+      number: GPIO15
+      inverted: true
+      mode: INPUT_PULLUP
+    on_press:
+      - voice_assistant.start
+
+api:
+
+ota:
+  platform: esphome
+
+logger:
+  level: DEBUG
+
+wifi:
+  ssid: "OpenWrt-ASCII"
+  password: "35353535"
