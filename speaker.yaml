@@ -6,13 +6,10 @@ esp32:
   variant: esp32s3
   framework:
     type: arduino
-  # ПРАВИЛЬНЫЙ ФОРМАТ ДЛЯ N16R8 (16MB Flash / 8MB PSRAM)
-  platformio_options:
-    board_build.arduino.memory_type: opi_opi
-    board_build.flash_mode: opi
-    board_build.f_flash: 80m
-    board_build.f_cpu: 240000000L
-
+  # ПРЯМАЯ ИНИЦИАЛИЗАЦИЯ ПАМЯТИ ДЛЯ N16R8
+  board_build.arduino.memory_type: opi_opi
+  board_build.flash_mode: opi
+  
 api:
 ota:
   platform: esphome
