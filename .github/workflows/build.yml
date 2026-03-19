@@ -1,7 +1,7 @@
 name: Build ESPHome
 
 on:
-  workflow_dispatch: # Это добавит кнопку "Run workflow"
+  workflow_dispatch:
   push:
     branches: [ "основной" ]
 
@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: esphome/build-action@v2
+      - uses: esphome/build-action@v2.2.0
         id: esphome-build
         with:
           config_file: speaker.yaml
