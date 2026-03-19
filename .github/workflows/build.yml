@@ -26,4 +26,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: my-firmware
-          path: .esphome/build/**/firmware*.bin
+          path: "**/*.bin" # Ищет любой .bin файл во всех папках
