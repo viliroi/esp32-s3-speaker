@@ -26,4 +26,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: my-firmware
-          path: "**/*.bin" # Ищет любой .bin файл во всех папках
+          # Указываем путь к скрытой папке сборки ESPHome
+          path: .esphome/build/my-speaker/.pioenvs/my-speaker/firmware.bin
+          if-no-files-found: error # Выдаст ошибку, если опять не найдет (чтобы мы знали сразу)
