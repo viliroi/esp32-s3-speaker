@@ -4,27 +4,24 @@ esphome:
 esp32:
   board: esp32-s3-devkitc-1
   framework:
-    type: esp-idf
-    version: recommended
-
-# Веб-сервер, чтобы проверить работу через браузер по IP
-web_server:
-  port: 80
-
-wifi:
-  ssid: "OpenWrt-2П"
-  password: "35353535"
-  fast_connect: true      # Критично для OpenWrt
-  power_save_mode: none   # Чтобы Wi-Fi не "засыпал" во время звука
+    type: arduino
 
 api:
-  reboot_timeout: 0s      # Чтобы плата не уходила в ребут, если нет связи с HA
 
 ota:
   platform: esphome
 
 logger:
   level: DEBUG
+
+web_server:
+  port: 80
+
+wifi:
+  ssid: "OpenWrt-2П"
+  password: "35353535"
+  fast_connect: true
+  power_save_mode: none
 
 i2s_audio:
   - id: i2s_bus
