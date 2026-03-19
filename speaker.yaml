@@ -3,8 +3,13 @@ esphome:
 
 esp32:
   board: esp32-s3-devkitc-1
+  variant: ESP32S3
   framework:
     type: arduino
+  # Пытаемся освободить пины от Octal SPI
+  board_build.arduino.memory_type: qio_qspi 
+  board_build.flash_mode: dio
+
 
 api:
 
