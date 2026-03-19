@@ -1,9 +1,8 @@
 name: Build ESPHome
 
 on:
+  workflow_dispatch: # Это добавит кнопку "Run workflow"
   push:
-    branches: [ "основной" ]
-  pull_request:
     branches: [ "основной" ]
 
 jobs:
