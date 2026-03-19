@@ -1,33 +1,29 @@
 esphome:
-  name: final-speaker-test      # Или оставьте ваше имя "esp32-s3-home"
+  name: final-speaker-test
 
 esp32:
   board: esp32-s3-devkitc-1
   framework:
     type: arduino
   variant: ESP32S3
-  psram: 8MB
+  # psram временно отключён
 
-# Эти секции остаются как в файле GitHub
 api:
 ota:
   platform: esphome
 logger:
   level: DEBUG
 
-# --- Wi-Fi (оставляем вашу сеть, но убираем BSSID для универсальности) ---
 wifi:
   networks:
     - ssid: "OpenWrt-2П"
       password: "35353535"
-      # bssid: 50:4F:3B:3F:A6:A2  # Закомментируйте или удалите эту строку
   fast_connect: true
 
-# --- Самое главное: ваши пины! ---
 i2s_audio:
   - id: i2s_bus
-    i2s_lrclk_pin: GPIO6        # Ваш пин
-    i2s_bclk_pin: GPIO5          # Ваш пин
+    i2s_lrclk_pin: GPIO6
+    i2s_bclk_pin: GPIO5
 
 media_player:
   - platform: i2s_audio
@@ -35,25 +31,24 @@ media_player:
     id: my_media_player
     i2s_audio_id: i2s_bus
     i2s_dout_pin: GPIO7
-    dac_type: external          # обязательно для PCM5102
-    mode: mono                   # если динамик один
+    dac_type: external
+    mode: mono
 
 microphone:
   - platform: i2s_audio
     id: my_mic
     i2s_audio_id: i2s_bus
     i2s_din_pin: GPIO4
-    adc_type: external           # для I2S-микрофона
+    adc_type: external
     pdm: false
     bits_per_sample: 16bit
-    channel: left              # Явно укажите канал
+    channel: left
 
-# --- Voice Assistant (без wake word для начала) ---
 voice_assistant:
   id: va
   microphone: my_mic
   media_player: my_media_player
-  # use_wake_word: false          # По умолчанию false
+  use_wake_word: false
 
 binary_sensor:
   - platform: gpio
